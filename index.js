@@ -3,8 +3,7 @@ const express = require('express');
 // Create an instance of the express application
 const app = express();
 
-// Define route to handle HTTP GET request
-app.get('/', (req, res) => {
+function index(req, res) {
   let number = req.query.n
   let answer = 0
   
@@ -15,7 +14,10 @@ app.get('/', (req, res) => {
   }
   
   return res.send(`${answer}`);
-});
+}
+
+// Define route to handle HTTP GET request
+app.get('/', index);
 
 // Start the server and listen on a specific port
 const port = 3000;

@@ -1,36 +1,32 @@
-const http = require('http');
-const url = require('url');
+const express = require('express');
 
-const server = http.createServer((req, res) => {
-  const queryObject = url.parse(req.url,true).query;
-  
-  let hey = queryObject.hey
+// Create an instance of the express application
+const app = express();
+
+// Define route to handle HTTP GET request
+app.get('/', (req, res) => {
+  let number = req.query.n
   let answer = 0
+  
   try {
-    answer = sumTillNumber(parseInt(hey)) 
-  } catch (error) {
-      // set response header
-    res.writeHead(200, {"Content-Type": "text/plain"});
-
-    // return query params as json object in response
-    return res.end(`${error}`);
+    answer = sumTillNumber(number)
+  } catch (e) {
+    return res.status(400).send({ error: e.message, description: `${number} is not a valid number` });
   }
   
-  // set response header
-  res.writeHead(200, {"Content-Type": "text/plain"});
-
-  // return query params as json object in response
-  return res.end(`${answer}`);
+  return res.send(`${answer}`);
 });
 
-server.listen(3000,()=> {
-    console.log("Server listening on port 3000");
+// Start the server and listen on a specific port
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
 });
 
 
 function sumTillNumber(n) {
   n = parseInt(n)
-  console.log(n, n == NaN)
+  console.log(n, typeof n, isNaN(n))
   if (isNaN(n)) throw new Error('Please enter a valid number')
   let answer = 0
   for (let i = 1; i <= n; i++) {

@@ -1,20 +1,14 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 // Create an instance of the express application
 const app = express();
-
-// Our custom middleware
-function customMiddleware(req, res, next){
-  console.log("Custom middleware was executed!");
-
-  // Call the next middleware in the stack
-  next();
-}
-
-app.use(customMiddleware)
+app.use(bodyParser.json())
 
 function index(req, res) {
-  let number = req.query.n
+  console.log({headers: req.headers})
+  console.log({body: req.body})
+  let number = req.query.number
   let answer = 0
   
   try {
@@ -32,7 +26,8 @@ app.get('/', index);
 // Start the server and listen on a specific port
 const port = 3000;
 app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
+    console.clear()
+    console.log(`Server is listening on port http://localhost:${port}`);
 });
 
 

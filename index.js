@@ -3,6 +3,16 @@ const express = require('express');
 // Create an instance of the express application
 const app = express();
 
+// Our custom middleware
+function customMiddleware(req, res, next){
+  console.log("Custom middleware was executed!");
+
+  // Call the next middleware in the stack
+  next();
+}
+
+app.use(customMiddleware)
+
 function index(req, res) {
   let number = req.query.n
   let answer = 0
